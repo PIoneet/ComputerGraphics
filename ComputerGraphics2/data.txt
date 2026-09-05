@@ -1,0 +1,10 @@
+This is Computer Graphics Warming-up program.
+1 One 2 Two 3 Three 4 Four
+File input output sample program
+2026 Fall semester 3D computer graphics
+Tech University in SOUTH Korea
+AI Convergence College Game and Game engineering department
+It was so hot this summer and I'm glad I was able to endure this extreme heat, well.
+Computer graphics class this semester is on Mondays, Tuesdays, and Wednesdays.
+fall Game Korea DEPARTMENT multi 3D Korea
+MonDay TuesDay WednesDay ThursDay FriDay SaturDay SunDay

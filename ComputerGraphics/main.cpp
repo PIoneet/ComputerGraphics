@@ -62,10 +62,11 @@ public:
 
 void matrixMul(const TwoMatrix& two);
 void matrixAdd(const TwoMatrix& two);
-void matrixDraw(const TwoMatrix& two);
+void matrixSub(const TwoMatrix& two);
 void matrixTranspos(const TwoMatrix& two);
 void matrixMin(const TwoMatrix& two, bool& toggle);
 void matrixMax(const TwoMatrix& two, bool& toggle);
+void matrixModuel(TwoMatrix& two, char c);  // 원본 수정할 예정
 
 
 
@@ -97,7 +98,7 @@ int main() {
 			matrixAdd(two);
 		}
 		else if (input == 'd') {
-			matrixDraw(two);
+			matrixSub(two);
 		}
 		else if (input == 'r') {
 			// 스트랭 책에서 이 부분만 한번 봐야될듯. 4x4 행렬식 구하는건 아직 안배웠음.
@@ -117,15 +118,29 @@ int main() {
 		}
 		else if (input == 'f') {
 
+			matrixMax(two, toggleMax);
+
+			if (toggleMax)
+				toggleMax = false;
+			else
+				toggleMax = true;
 		}
 		else if (input == '+') {
 
+			matrixModuel(two, input);
+		
 		}
 		else if (input == '-') {
-
+			
+			matrixModuel(two, input);
+		
 		}
 		else if (input == 's') {
+			two.makeRandom();
+			cout << two;
 
+			toggleMin = true;
+			toggleMax = true;
 		}
 
 
@@ -184,7 +199,7 @@ void matrixAdd(const TwoMatrix& two)
 }
 
 
-void matrixDraw(const TwoMatrix& two)
+void matrixSub(const TwoMatrix& two)
 {
 	array<int, 16> tempMatrix{};
 	for (int i = 0; i < two.row; ++i) {
@@ -288,19 +303,29 @@ void matrixMax(const TwoMatrix& two, bool& toggle)
 		max1.reserve(100);
 		max2.reserve(100);
 
+
 		for (int i = 0; i < two.row; ++i) {
 
+			int maxVal1 = two.matrix1[i];
+			int maxVal2 = two.matrix2[i];
 
+			for (int j = 1; j < two.row; ++j) {
+
+				maxVal1 = max(maxVal1, two.matrix1[i + two.row * j]);
+				maxVal2 = max(maxVal2, two.matrix2[i + two.row * j]);
+
+			}
+
+			max1.push_back(maxVal1);
+			max2.push_back(maxVal2);
 		}
-
-
 
 		for (int i = 0; i < two.row; ++i) {
 
 			for (int j = 0; j < two.row; ++j) {
 
-				tempMatrix.matrix1[i * two.row + j] = two.matrix1[i * two.row + j] + max1[i];
-				tempMatrix.matrix2[i * two.row + j] = two.matrix2[i * two.row + j] - max2[i];
+				tempMatrix.matrix1[i + two.row * j] = two.matrix1[i + two.row * j] + max1[i];
+				tempMatrix.matrix2[i + two.row * j] = two.matrix2[i + two.row * j] + max2[i];
 
 			}
 		}
@@ -313,9 +338,29 @@ void matrixMax(const TwoMatrix& two, bool& toggle)
 		cout << two;
 	}
 
-
 }
 
+
+void matrixModuel(TwoMatrix& two, char c) 
+{
+
+	for (int i = 0; i < two.row; ++i) {
+
+		for (int j = 0; j < two.row; ++j) {
+
+			two.matrix1[i * two.row + j] = 
+				( ( two.matrix1[i * two.row + j] +( (c == '+') ? 1 : -1) ) + 10) % 10;
+	
+			
+			two.matrix2[i * two.row + j] = 
+				( ( two.matrix2[i * two.row + j] + ( (c == '+') ? 1 : -1) )+ 10) % 10;
+		
+		}
+	}
+
+	cout << two;
+
+}
 
 
 
