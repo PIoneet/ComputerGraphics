@@ -63,6 +63,7 @@ public:
 void matrixMul(const TwoMatrix& two);
 void matrixAdd(const TwoMatrix& two);
 void matrixSub(const TwoMatrix& two);
+void matrixDet(const TwoMatrix& two);
 void matrixTranspos(const TwoMatrix& two);
 void matrixMin(const TwoMatrix& two, bool& toggle);
 void matrixMax(const TwoMatrix& two, bool& toggle);
@@ -102,6 +103,7 @@ int main() {
 		}
 		else if (input == 'r') {
 			// 스트랭 책에서 이 부분만 한번 봐야될듯. 4x4 행렬식 구하는건 아직 안배웠음.
+			matrixDet(two);
 		}
 		else if (input == 't') {
 			matrixTranspos(two);
@@ -149,6 +151,42 @@ int main() {
 	} while (true);
 
 }
+
+
+int determinant(vector<vector<int>> mat, int n)
+{
+	if (n == 1) return mat[0][0];
+	if (n == 2) return mat[0][0] * mat[1][1] - mat[0][1] * mat[1][0];
+
+	int det = 0;
+	int sign = 1;
+
+	for (int col = 0; col < n; ++col) {
+		// 0번 행과 col번 열을 제외한 (n-1)x(n-1) 소행렬 만들기
+		vector<vector<int>> minor(n - 1, vector<int>(n - 1));
+		for (int i = 1; i < n; ++i) {
+			int mc = 0;
+			for (int j = 0; j < n; ++j) {
+				if (j == col) continue;
+				minor[i - 1][mc++] = mat[i][j];
+			}
+		}
+		det += sign * mat[0][col] * determinant(minor, n - 1);
+		sign = -sign;
+	}
+	return det;
+}
+
+vector<vector<int>> toGrid(const array<int, 16>& m, int n)
+{
+	vector<vector<int>> grid(n, vector<int>(n));
+	for (int i = 0; i < n; ++i)
+		for (int j = 0; j < n; ++j)
+			grid[i][j] = m[i * n + j];
+	return grid;
+}
+
+
 
 
 void matrixMul(const TwoMatrix& two) 
@@ -222,30 +260,38 @@ void matrixSub(const TwoMatrix& two)
 }
 
 
+void matrixDet(const TwoMatrix& two)
+{
+	auto grid1 = toGrid(two.matrix1, two.row);
+	auto grid2 = toGrid(two.matrix2, two.row);
+
+	cout << "행렬1의 행렬식: " << determinant(grid1, two.row) << endl;
+	cout << "행렬2의 행렬식: " << determinant(grid2, two.row) << endl;
+}
+
+
+
+
 void matrixTranspos(const TwoMatrix& two)
 {
-
 	TwoMatrix tempMatrix;
 
-	for (int i = 0; i < two.row; ++i) {
-
-		for (int j = 0; j < two.row; ++j) {
-
+	for (int i = 0; i < two.row; ++i)
+		for (int j = 0; j < two.row; ++j)
 			tempMatrix.matrix1[i * two.row + j] = two.matrix1[i + two.row * j];
-		}
-	}
 
-	for (int i = 0; i < two.row; ++i) {
-
-		for (int j = 0; j < two.row; ++j) {
-
+	for (int i = 0; i < two.row; ++i)
+		for (int j = 0; j < two.row; ++j)
 			tempMatrix.matrix2[i * two.row + j] = two.matrix2[i + two.row * j];
-		}
-	}
-
 
 	cout << tempMatrix;
 
+
+	// 추가된 부분
+	auto grid1 = toGrid(tempMatrix.matrix1, tempMatrix.row);
+	auto grid2 = toGrid(tempMatrix.matrix2, tempMatrix.row);
+	cout << "전치행렬1의 행렬식: " << determinant(grid1, tempMatrix.row) << endl;
+	cout << "전치행렬2의 행렬식: " << determinant(grid2, tempMatrix.row) << endl;
 }
 
 

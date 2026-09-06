@@ -6,6 +6,7 @@
 #include <cctype>
 #include <windows.h>
 #include <random>
+#include <algorithm>
 
 
 using namespace std;
@@ -66,6 +67,11 @@ void setUpperColor(const TextData& textData, bool& switchUpperColor);
 void reverseOutput(const TextData& textData, bool& switchReverse);
 void changeSpaceToStar(const TextData& textData, bool& switchSpace);
 void reverseWords(const TextData& textData, bool& switchReverseWords);
+void changeLetter(const TextData& textData, bool& switchLetter);
+void lineWrap(const TextData& textData, bool& switchLine);
+void inputColor(const TextData& textData, string& word);
+void moveLine(TextData& textData);
+
 
 
 int main() {
@@ -79,6 +85,8 @@ int main() {
 	bool switchReverse{ true };
 	bool switchSpace{true};
 	bool switchReverseWords{ true };
+	bool switchLetter{ true };
+	bool switchLine{ true };
 
 
 	cout << "input data file name: ";
@@ -134,16 +142,21 @@ int main() {
 			reverseWords(textData, switchReverseWords);
 		}
 		else if (input == 'g') {
-
+			// 대소문자 구분하는 형태로 구현했음. A바꾸면 a는 바꾸지 않음.
+			changeLetter(textData, switchLetter);
 		}
 		else if (input == 'h') {
-
+			lineWrap(textData, switchLine );
 		}
 		else if (input == 'i') {
+			string word;
+			cin >> word;
+
+			inputColor(textData, word);
 
 		}
 		else if (input == 'j') {
-
+			moveLine(textData);
 		}
 
 
@@ -322,6 +335,7 @@ void changeSpaceToStar(const TextData& textData, bool& switchSpace)
 
 }
 
+
 void reverseWords(const TextData& textData, bool& switchReverseWords)
 {
 	if (switchReverseWords) {
@@ -361,5 +375,169 @@ void reverseWords(const TextData& textData, bool& switchReverseWords)
 		cout << textData;
 		switchReverseWords = true;
 	}
+
+}
+
+
+void changeLetter(const TextData& textData, bool& switchLetter)
+{
+	TextData tempData;
+
+	if (switchLetter) {
+		
+		char letter, input;
+		cout << "Letter you want to change: ";
+		cin >> letter;
+		cout << "Put Input: ";
+		cin >> input;
+
+		int lineCount = textData.getLine();
+
+		for (int i = 0; i < lineCount; ++i) {
+			stringstream lineStream(textData.getStrData()[i]);
+			string temp;
+			string result;
+			bool first{ true };
+
+
+			while (lineStream >> temp) {
+				
+				for (int j = 0; j < temp.size(); ++j) {
+					if (temp[j] == letter)
+						temp[j] = input;
+				}
+
+				if (!first) result += " ";
+				first = false;
+
+				result += temp;
+
+			}
+
+			tempData.getStrData().push_back(result);
+
+		}
+
+		cout << tempData << endl;
+		switchLetter = false;
+	}
+	else {
+		cout << textData;
+		switchLetter = true;
+	}
+
+}
+
+
+
+void lineWrap(const TextData& textData, bool& switchLine)
+{
+
+	if (switchLine) {
+
+		int lineCount = textData.getLine();
+
+		for (int i = 0; i < lineCount; ++i) {
+			
+			stringstream lineStream(textData.getStrData()[i]);
+			string temp;
+	
+
+			while (lineStream >> temp) {
+				
+				int j{};
+				for (; j < temp.size(); ++j) {
+			
+					cout << temp[j];
+
+					if (isdigit(temp[j])) {
+						
+						cout << "\n";
+					}
+				}
+
+				if( !isdigit(temp[j-1]) )
+					cout << " ";
+			}
+
+			cout << "\n";
+
+		}
+
+		switchLine = false;
+	}
+	else {
+		cout << textData;
+		switchLine = true;
+	}
+}
+
+
+
+
+void inputColor(const TextData& textData, string& word)
+{
+	for (int i = 0; i < word.size(); ++i) {
+		if (isupper(word[i]))
+			word[i] = tolower(word[i]);
+		// 소문자로 통일하기
+	}
+
+	int cntColor{};
+	int lineCount = textData.getLine();
+
+	for (int i = 0; i < lineCount; ++i) {
+		stringstream lineStream(textData.getStrData()[i]);
+		string temp;
+		bool first{ true };
+
+		while (lineStream >> temp) {
+			
+			string original = temp;
+
+			for (int j = 0; j < temp.size(); ++j) {
+				if (isupper(temp[j]))
+					temp[j] = tolower(temp[j]);
+			}
+
+			if (word == temp) {
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), dis(gen)); 
+				++cntColor;
+			}
+			else {
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7 );
+			}
+				
+			if (!first) original += " ";
+			first = false;
+
+			cout << original;
+
+		}
+
+		cout << endl;
+
+	}
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+	cout << endl;
+	cout << "Number of Changed Colors: " << cntColor << endl;
+
+}
+
+
+
+void moveLine(TextData& textData)
+{	
+	
+	auto begin = textData.getStrData().begin();
+	auto end = textData.getStrData().end();
+		
+	rotate(begin, end - 1, end);
+
+	
+
+	cout << textData;
+
 
 }
