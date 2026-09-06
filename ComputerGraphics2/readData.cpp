@@ -240,7 +240,7 @@ void setUpperColor(const TextData& textData, bool& switchUpperColor)
 			cout << endl;
 
 		}
-
+		
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 		switchUpperColor = false;
 	}
