@@ -164,7 +164,7 @@ int determinant(vector<vector<int>> mat, int n)
 	for (int col = 0; col < n; ++col) {
 		// 0번 행과 col번 열을 제외한 (n-1)x(n-1) 소행렬 만들기
 		vector<vector<int>> minor(n - 1, vector<int>(n - 1));
-		for (int i = 1; i < n; ++i) {
+		for (int i = 1; i < n; ++i) { // 0번 행을 제외하고
 			int mc = 0;
 			for (int j = 0; j < n; ++j) {
 				if (j == col) continue;
@@ -176,6 +176,8 @@ int determinant(vector<vector<int>> mat, int n)
 	}
 	return det;
 }
+
+
 
 vector<vector<int>> toGrid(const array<int, 16>& m, int n)
 {
@@ -260,6 +262,8 @@ void matrixSub(const TwoMatrix& two)
 }
 
 
+
+
 void matrixDet(const TwoMatrix& two)
 {
 	auto grid1 = toGrid(two.matrix1, two.row);
@@ -268,6 +272,9 @@ void matrixDet(const TwoMatrix& two)
 	cout << "행렬1의 행렬식: " << determinant(grid1, two.row) << endl;
 	cout << "행렬2의 행렬식: " << determinant(grid2, two.row) << endl;
 }
+
+
+
 
 
 
