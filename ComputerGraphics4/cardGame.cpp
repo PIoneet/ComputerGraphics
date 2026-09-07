@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <vector>
 #include <random>
 #include <algorithm>
@@ -10,18 +10,18 @@ using namespace std;
 random_device rd4;
 mt19937 gen4(rd4());
 
-// ===== º¸µå ÇÑ Ä­À» Ç¥ÇöÇÏ´Â ±¸Á¶Ã¼ =====
+// ===== ë³´ë“œ í•œ ì¹¸ì„ í‘œí˜„í•˜ëŠ” êµ¬ì¡°ì²´ =====
 struct Cell {
-    char letter{};          // ¹èÄ¡µÈ ¼Ò¹®ÀÚ (Á¶Ä¿´Â '@')
-    bool revealed{ false }; // Áö±İ È­¸é¿¡ ±ÛÀÚ°¡ º¸ÀÌ°í ÀÖ´ÂÁö (ÀÓ½Ã Ç¥½Ã Æ÷ÇÔ)
-    bool matched{ false };  // ¿ÏÀüÈ÷ ¸ÂÃçÁ®¼­ ¿µ±¸ÀûÀ¸·Î ¿­¸° »óÅÂÀÎÁö
+    char letter{};          // ë°°ì¹˜ëœ ì†Œë¬¸ì (ì¡°ì»¤ëŠ” '@')
+    bool revealed{ false }; // ì§€ê¸ˆ í™”ë©´ì— ê¸€ìê°€ ë³´ì´ê³  ìˆëŠ”ì§€ (ì„ì‹œ í‘œì‹œ í¬í•¨)
+    bool matched{ false };  // ì™„ì „íˆ ë§ì¶°ì ¸ì„œ ì˜êµ¬ì ìœ¼ë¡œ ì—´ë¦° ìƒíƒœì¸ì§€
 };
 
 class Board {
 private:
     vector<vector<Cell>> grid;
-    int width{};    // °¡·Î (¿­ °³¼ö, a b c d ...)
-    int height{};   // ¼¼·Î (Çà °³¼ö, 1 2 3 ...)
+    int width{};    // ê°€ë¡œ (ì—´ ê°œìˆ˜, a b c d ...)
+    int height{};   // ì„¸ë¡œ (í–‰ ê°œìˆ˜, 1 2 3 ...)
 
 public:
     Board() {}
@@ -32,7 +32,7 @@ public:
         grid.assign(height, vector<Cell>(width));
 
         int totalCells = width * height;
-        int pairCount = totalCells / 2;        // ÇÊ¿äÇÑ ¼­·Î ´Ù¸¥ ¹®ÀÚ °³¼ö
+        int pairCount = totalCells / 2;        // í•„ìš”í•œ ì„œë¡œ ë‹¤ë¥¸ ë¬¸ì ê°œìˆ˜
         bool hasJoker = (totalCells % 2 != 0);
 
         vector<char> letters;
@@ -41,10 +41,10 @@ public:
             letters.push_back(static_cast<char>('a' + i));
         }
         if (hasJoker) {
-            letters.push_back('@'); // Á¶Ä¿: ¾î´À Ä«µå¿Íµµ ¸ÅÄ¡µÊ
+            letters.push_back('@'); // ì¡°ì»¤: ì–´ëŠ ì¹´ë“œì™€ë„ ë§¤ì¹˜ë¨
         }
 
-        shuffle(letters.begin(), letters.end(), gen4); // ¹«ÀÛÀ§ ¹èÄ¡
+        shuffle(letters.begin(), letters.end(), gen4); // ë¬´ì‘ìœ„ ë°°ì¹˜
 
         int idx = 0;
         for (int r = 0; r < height; ++r) {
@@ -69,7 +69,7 @@ public:
         return true;
     }
 
-    // ---- º¸µå Ãâ·Â (a b c d.. ¿­ Çì´õ + 1 2 3.. Çà ¹øÈ£ Æ÷ÇÔ) ----
+    // ---- ë³´ë“œ ì¶œë ¥ (a b c d.. ì—´ í—¤ë” + 1 2 3.. í–‰ ë²ˆí˜¸ í¬í•¨) ----
     void print() const {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -85,11 +85,11 @@ public:
                 const Cell& cell = grid[r][c];
                 if (cell.revealed) {
                     if (cell.matched)
-                        SetConsoleTextAttribute(hConsole, 10); // ÃÊ·Ï: È®Á¤ ¸ÅÄ¡
+                        SetConsoleTextAttribute(hConsole, 10); // ì´ˆë¡: í™•ì • ë§¤ì¹˜
                     else
-                        SetConsoleTextAttribute(hConsole, 14); // ³ë¶û: ÀÓ½Ã Ç¥½Ã
+                        SetConsoleTextAttribute(hConsole, 14); // ë…¸ë‘: ì„ì‹œ í‘œì‹œ
                     cout << static_cast<char>(toupper(cell.letter));
-                    SetConsoleTextAttribute(hConsole, 7);      // ±âº»»ö º¹±Í
+                    SetConsoleTextAttribute(hConsole, 7);      // ê¸°ë³¸ìƒ‰ ë³µê·€
                     cout << " ";
                 }
                 else {
@@ -101,7 +101,7 @@ public:
     }
 };
 
-// ===== ÇÔ¼ö ¼±¾ğ =====
+// ===== í•¨ìˆ˜ ì„ ì–¸ =====
 void resetGame(Board& board, int w, int h);
 void showHint(Board& board);
 pair<int, int> parseInput(const string& input);
@@ -113,26 +113,26 @@ int main() {
     int w, h;
 
     do {
-        cout << "°¡·Î ¼¼·Î Å©±â ÀÔ·Â (3~6): ";
+        cout << "ê°€ë¡œ ì„¸ë¡œ í¬ê¸° ì…ë ¥ (3~6): ";
         cin >> w >> h;
         if (w < 3 || w > 6 || h < 3 || h > 6)
-            cout << "¹üÀ§¸¦ ¹ş¾î³µ½À´Ï´Ù. 3~6 »çÀÌ·Î ´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä." << endl;
+            cout << "ë²”ìœ„ë¥¼ ë²—ì–´ë‚¬ìŠµë‹ˆë‹¤. 3~6 ì‚¬ì´ë¡œ ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”." << endl;
     } while (w < 3 || w > 6 || h < 3 || h > 6);
 
     board.setup(w, h);
     board.print();
 
     int score = 0;
-    int triesLeft = 10;   // È½¼ö/¹èÁ¡ ±âÁØ: ¸ÅÄ¡ ½Ãµµ 10¹ø, ¼º°ø ½Ã +10Á¡
+    int triesLeft = 10;   // íšŸìˆ˜/ë°°ì  ê¸°ì¤€: ë§¤ì¹˜ ì‹œë„ 10ë²ˆ, ì„±ê³µ ì‹œ +10ì 
 
     do {
-        cout << endl << "³²Àº ½Ãµµ: " << triesLeft << ", Á¡¼ö: " << score << endl;
-        cout << "¸í·ÉÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä (¿¹: a1 c3, r=¸®¼Â, h=ÈùÆ®, q=Á¾·á): ";
+        cout << endl << "ë‚¨ì€ ì‹œë„: " << triesLeft << ", ì ìˆ˜: " << score << endl;
+        cout << "ëª…ë ¹ì„ ì…ë ¥í•´ì£¼ì„¸ìš” (ì˜ˆ: a1 c3, r=ë¦¬ì…‹, h=íŒíŠ¸, q=ì¢…ë£Œ): ";
         string input;
         cin >> input;
 
         if (input == "q") {
-            cout << "°ÔÀÓ Á¾·á" << endl;
+            cout << "ê²Œì„ ì¢…ë£Œ" << endl;
             break;
         }
         else if (input == "r") {
@@ -151,7 +151,7 @@ int main() {
             pair<int, int> pos2 = parseInput(input2);
 
             if (!isValidPos(board, pos1) || !isValidPos(board, pos2) || pos1 == pos2) {
-                cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ½ÃµµÇÏ¼¼¿ä." << endl;
+                cout << "ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•˜ì„¸ìš”." << endl;
                 continue;
             }
 
@@ -160,22 +160,22 @@ int main() {
             --triesLeft;
 
             if (board.allMatched()) {
-                cout << endl << "¸ğµç Ä«µå¸¦ ¸ÂÃè½À´Ï´Ù!" << endl;
+                cout << endl << "ëª¨ë“  ì¹´ë“œë¥¼ ë§ì·„ìŠµë‹ˆë‹¤!" << endl;
                 break;
             }
             if (triesLeft <= 0) {
-                cout << endl << "È½¼ö¸¦ ¸ğµÎ »ç¿ëÇß½À´Ï´Ù. °ÔÀÓÀ» Á¾·áÇÕ´Ï´Ù." << endl;
+                cout << endl << "íšŸìˆ˜ë¥¼ ëª¨ë‘ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤. ê²Œì„ì„ ì¢…ë£Œí•©ë‹ˆë‹¤." << endl;
                 break;
             }
         }
 
     } while (true);
 
-    cout << "ÃÖÁ¾ Á¡¼ö: " << score << endl;
+    cout << "ìµœì¢… ì ìˆ˜: " << score << endl;
     return 0;
 }
 
-// ===== ÇÔ¼ö ±¸Çö =====
+// ===== í•¨ìˆ˜ êµ¬í˜„ =====
 
 void resetGame(Board& board, int w, int h)
 {
@@ -199,7 +199,7 @@ void showHint(Board& board)
             grid[r][c].revealed = true;
 
     board.print();
-    Sleep(1500); // 1.5ÃÊ µ¿¾È ÀüÃ¼ °ø°³
+    Sleep(1500); // 1.5ì´ˆ ë™ì•ˆ ì „ì²´ ê³µê°œ
 
     for (int r = 0; r < height; ++r)
         for (int c = 0; c < width; ++c)
@@ -230,11 +230,11 @@ bool tryMatch(Board& board, pair<int, int> pos1, pair<int, int> pos2, int& score
     Cell& cell2 = grid[pos2.first][pos2.second];
 
     if (cell1.matched || cell2.matched) {
-        cout << "ÀÌ¹Ì ¸ÂÃçÁø Ä­ÀÔ´Ï´Ù." << endl;
+        cout << "ì´ë¯¸ ë§ì¶°ì§„ ì¹¸ì…ë‹ˆë‹¤." << endl;
         return false;
     }
 
-    // 1. µÎ Ä­À» Àá±ñ º¸¿©ÁÜ
+    // 1. ë‘ ì¹¸ì„ ì ê¹ ë³´ì—¬ì¤Œ
     cell1.revealed = true;
     cell2.revealed = true;
     board.print();
@@ -243,8 +243,8 @@ bool tryMatch(Board& board, pair<int, int> pos1, pair<int, int> pos2, int& score
     bool isJoker2 = (cell2.letter == '@');
 
     if (isJoker1 || isJoker2) {
-        // 2. Á¶Ä¿°¡ Æ÷ÇÔµÇ¸é -> µÎ Ä­ ¸ğµÎ ÀÚµ¿À¸·Î ¿­¸²(¸ÅÄ¡ È®Á¤)
-        cout << "Á¶Ä¿! µÎ Ä­ ¸ğµÎ ¿­¸³´Ï´Ù." << endl;
+        // 2. ì¡°ì»¤ê°€ í¬í•¨ë˜ë©´ -> ë‘ ì¹¸ ëª¨ë‘ ìë™ìœ¼ë¡œ ì—´ë¦¼(ë§¤ì¹˜ í™•ì •)
+        cout << "ì¡°ì»¤! ë‘ ì¹¸ ëª¨ë‘ ì—´ë¦½ë‹ˆë‹¤." << endl;
         cell1.matched = true;
         cell2.matched = true;
         cell1.revealed = true;
@@ -254,16 +254,16 @@ bool tryMatch(Board& board, pair<int, int> pos1, pair<int, int> pos2, int& score
     }
 
     if (cell1.letter == cell2.letter) {
-        // 3. ¹®ÀÚ°¡ °°À¸¸é -> ´ë¹®ÀÚ·Î È®Á¤
-        cout << "ÀÏÄ¡! ¸ÂÃè½À´Ï´Ù." << endl;
+        // 3. ë¬¸ìê°€ ê°™ìœ¼ë©´ -> ëŒ€ë¬¸ìë¡œ í™•ì •
+        cout << "ì¼ì¹˜! ë§ì·„ìŠµë‹ˆë‹¤." << endl;
         cell1.matched = true;
         cell2.matched = true;
         score += 10;
         return true;
     }
     else {
-        // 4. ´Ù¸£¸é -> ´Ù½Ã °¡·ÁÁü
-        cout << "ºÒÀÏÄ¡." << endl;
+        // 4. ë‹¤ë¥´ë©´ -> ë‹¤ì‹œ ê°€ë ¤ì§
+        cout << "ë¶ˆì¼ì¹˜." << endl;
         cell1.revealed = false;
         cell2.revealed = false;
         return false;

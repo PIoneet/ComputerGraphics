@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <array>
 #include <cmath>
 #include <algorithm>
@@ -6,7 +6,7 @@
 
 using namespace std;
 
-// ===== Á¡ ÇÏ³ª¸¦ Ç¥ÇöÇÏ´Â ±¸Á¶Ã¼ =====
+// ===== ì  í•˜ë‚˜ë¥¼ í‘œí˜„í•˜ëŠ” êµ¬ì¡°ì²´ =====
 struct Point {
     int x{};
     int y{};
@@ -104,12 +104,12 @@ int main() {
     cout << list;
 
     do {
-        cout << endl << "¸í·É¾î ÀÔ·Â: ";
+        cout << endl << "ëª…ë ¹ì–´ ì…ë ¥: ";
         char cmd;
         cin >> cmd;
 
         if (cmd == 'q') {
-            cout << "ÇÁ·Î±×·¥ Á¾·á" << endl;
+            cout << "í”„ë¡œê·¸ë¨ ì¢…ë£Œ" << endl;
             break;
         }
         else if (cmd == '+') {
@@ -145,7 +145,7 @@ int main() {
         }
 
         if(cmd != 'f')
-            cout << list;   // fÀÏ‹š¸¸ Á¦¿ÜÇÏ°í 
+            cout << list;   // fì¼ë–„ë§Œ ì œì™¸í•˜ê³  
 
     } while (true);
 
@@ -202,7 +202,7 @@ void pushBottom(PointList& list, int x, int y, int z)
     
 
 
-    if (list.isFull())  //²Ë Ã¡´Ù¸é Å»ÃâÇÏ±â
+    if (list.isFull())  //ê½‰ ì°¼ë‹¤ë©´ íƒˆì¶œí•˜ê¸°
         return;
 
 
@@ -213,7 +213,7 @@ void pushBottom(PointList& list, int x, int y, int z)
         }
 
 
-        /*  ÀÌ·¸°Ô ±¸ÇöÇÏ¸é ¹®Á¦°¡ »ı±â´Â°Ô d¸¦ ¿©·¯¹øÇÏ°í e¸¦ ÇÏ¸é bottomÀÌ ¾û¶×ÇÑ À§Ä¡¿¡ Á¸ÀçÇÏ°Ô µÈ´Ù.
+        /*  ì´ë ‡ê²Œ êµ¬í˜„í•˜ë©´ ë¬¸ì œê°€ ìƒê¸°ëŠ”ê²Œ dë¥¼ ì—¬ëŸ¬ë²ˆí•˜ê³  eë¥¼ í•˜ë©´ bottomì´ ì—‰ëš±í•œ ìœ„ì¹˜ì— ì¡´ì¬í•˜ê²Œ ëœë‹¤.
         else if (bottom != 0) {
             bottom -= 1;
             list.setBottom(bottom);
@@ -224,7 +224,7 @@ void pushBottom(PointList& list, int x, int y, int z)
         
     }
     else{
-        ++top;  // µ¥ÀÌÅÍ Ãß°¡ÇÏ´Ï±î top Áõ°¡
+        ++top;  // ë°ì´í„° ì¶”ê°€í•˜ë‹ˆê¹Œ top ì¦ê°€
         list.setTop(top);
 
         auto firstIter = list.getPoints().begin();
@@ -248,7 +248,7 @@ void popBottom(PointList& list)
         return;
     }
 
-    // ¸Å¹ø ·çÇÁ·Î °¡Àå ³·Àº ÀÎµ¦½ºÀÎ bottomÀ» Ã£´Â ·ÎÁ÷
+    // ë§¤ë²ˆ ë£¨í”„ë¡œ ê°€ì¥ ë‚®ì€ ì¸ë±ìŠ¤ì¸ bottomì„ ì°¾ëŠ” ë¡œì§
     for (int i = 9; i >= 0; --i) {
         if (list.getPoints()[i].used == true)
             bottom = i;
@@ -256,7 +256,7 @@ void popBottom(PointList& list)
 
     list.getPoints()[bottom].used = false;
 
-    if (list.isEmpty()) {  // popÇØ¼­ ºñ¾îÁö¸é topµµ ´Ù½Ã -1µÇ¾ß ÇÑ´Ù.
+    if (list.isEmpty()) {  // popí•´ì„œ ë¹„ì–´ì§€ë©´ topë„ ë‹¤ì‹œ -1ë˜ì•¼ í•œë‹¤.
         list.setTop(-1);
     }
         
@@ -266,9 +266,9 @@ void popBottom(PointList& list)
 
 void printCount(const PointList& list)
 {
-    // TODO: used == trueÀÎ Ä­ °³¼ö ¼¼¼­ Ãâ·Â
+    // TODO: used == trueì¸ ì¹¸ ê°œìˆ˜ ì„¸ì„œ ì¶œë ¥
 
-    // STL count_if·Î ´ëÃ¼ °¡´ÉÇÏ´Ù.
+    // STL count_ifë¡œ ëŒ€ì²´ ê°€ëŠ¥í•˜ë‹¤.
     int pointCnt{};
 
     for (int i = 0; i < 10; ++i) {
@@ -283,7 +283,7 @@ void printCount(const PointList& list)
 
 void shiftDown(PointList& list)
 {
-    // TODO: 0->9, 1->0, ..., 9->8 ·Î ÀüÃ¼ ¹Ğ±â (¼øÈ¯)
+    // TODO: 0->9, 1->0, ..., 9->8 ë¡œ ì „ì²´ ë°€ê¸° (ìˆœí™˜)
 
     int top = list.getTop();
 
@@ -368,7 +368,7 @@ void findMinMaxDistance(const PointList& list)
 
     int n = static_cast<int>(pts.size());
     if (n < 2) {
-        cout << "Á¡ÀÌ 2°³ ¹Ì¸¸ÀÌ¶ó Á¶ÇÕÀ» ¸¸µé ¼ö ¾ø½À´Ï´Ù." << endl;
+        cout << "ì ì´ 2ê°œ ë¯¸ë§Œì´ë¼ ì¡°í•©ì„ ë§Œë“¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤." << endl;
         return;
     }
 
@@ -384,7 +384,7 @@ void findMinMaxDistance(const PointList& list)
             float d = sqrt(static_cast<float>(dx * dx + dy * dy + dz * dz));
 
             cout << '(' << pts[i].x << ' ' << pts[i].y << ' ' << pts[i].z << ") - ("
-                << pts[j].x << ' ' << pts[j].y << ' ' << pts[j].z << ") : °Å¸® "
+                << pts[j].x << ' ' << pts[j].y << ' ' << pts[j].z << ") : ê±°ë¦¬ "
                 << d << '\n';
 
             if (first || d > maxDist) {
@@ -402,11 +402,11 @@ void findMinMaxDistance(const PointList& list)
     }
 
     cout << endl;
-    cout << "°¡Àå ¸Õ µÎ Á¡: (" << maxA.x << ' ' << maxA.y << ' ' << maxA.z
+    cout << "ê°€ì¥ ë¨¼ ë‘ ì : (" << maxA.x << ' ' << maxA.y << ' ' << maxA.z
         << ") - (" << maxB.x << ' ' << maxB.y << ' ' << maxB.z
-        << "), °Å¸®: " << maxDist << endl;
+        << "), ê±°ë¦¬: " << maxDist << endl;
 
-    cout << "°¡Àå °¡±î¿î µÎ Á¡: (" << minA.x << ' ' << minA.y << ' ' << minA.z
+    cout << "ê°€ì¥ ê°€ê¹Œìš´ ë‘ ì : (" << minA.x << ' ' << minA.y << ' ' << minA.z
         << ") - (" << minB.x << ' ' << minB.y << ' ' << minB.z
-        << "), °Å¸®: " << minDist << endl;
+        << "), ê±°ë¦¬: " << minDist << endl;
 }
