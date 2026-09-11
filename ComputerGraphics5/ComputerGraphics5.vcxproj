@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cardGame.cpp" />
+    <ClCompile Include="triangle.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{afe1766d-3c29-40c7-88f2-2fea4f668617}</ProjectGuid>
-    <RootNamespace>ComputerGraphics4</RootNamespace>
+    <ProjectGuid>{47bd5577-9e86-4291-89b2-b45550e4fee4}</ProjectGuid>
+    <RootNamespace>ComputerGraphics5</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

@@ -62,6 +62,8 @@ public:
                 grid[i][j].letter = randLetter[i * width + j];
             }
         }
+
+        // cpp 파일만 압축해서 보내주세요.
         
 
         //일단 char('a' + i)의 형태로 a,b,c,d 등등을 Cell.letter = 이렇게 대입하는건 맞음. 
@@ -259,9 +261,6 @@ void showHint(Board& board)
 
 pair<int, int> parseInput(const string& input)
 {
-    // TODO: "a1" 같은 입력을 파싱
-    // input[0] : 열 문자 (a, b, c...) -> col = input[0] - 'a'
-    // input[1] 이후 : 행 번호 문자열 -> row = stoi(...) - 1
     
     
     int col = input[0] - 'a';
@@ -276,11 +275,6 @@ pair<int, int> parseInput(const string& input)
 
 bool tryMatch(Board& board, pair<int, int> pos1, pair<int, int> pos2, int& score)
 {
-    // TODO:
-    // 1. 두 칸의 letter를 잠깐 보여줌
-    // 2. 조커가 포함되어 있으면 -> 나머지 카드 자동으로 열림 처리
-    // 3. 두 문자가 같으면 -> 대문자로 확정(revealed=true 유지), score 증가
-    // 4. 다르면 -> 다시 가려짐(revealed=false), 문자 색상 다르게 표시했다가 복귀
     auto& pos1Cell = board.getGrid()[pos1.first][pos1.second];
     auto& pos2Cell = board.getGrid()[pos2.first][pos2.second];
 
